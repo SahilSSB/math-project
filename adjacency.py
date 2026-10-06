@@ -2,16 +2,20 @@ import pandas as pd
 import numpy as np
 
 
-def adjacency():
-    df = pd.read_csv("./outputs/synthetic_org_log.csv", usecols=["sender_id", "recipient_id"])
+def adjacency(path="outputs/syntheticOrgLog.csv"):
+    df = pd.read_csv(path, usecols=["senderId", "recipientId"])
+    if df.empty or df.isna().any().any():
+        raise ValueError("The log must contain non-missing sender and recipient IDs.")
 
-    allID = sorted(pd.concat([df["sender_id"], df["recipient_id"]]).unique())
+    allID = sorted(pd.concat([df["senderId"], df["recipientId"]]).unique())
     n = len(allID)
     idToIdx = {empID: idx for idx, empID in enumerate(allID)}
     adjacencyMatrix = np.zeros((n, n))
     for row in df.itertuples(index=False):
-        i = idToIdx[row.sender_id]
-        j = idToIdx[row.recipient_id]
+        i = idToIdx[row.senderId]
+        j = idToIdx[row.recipientId]
+        if i == j:  # Self-messages do not connect different employees.
+            continue
         adjacencyMatrix[i][j] += 1
         adjacencyMatrix[j][i] += 1
 
