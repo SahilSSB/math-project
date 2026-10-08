@@ -155,8 +155,6 @@ python dataset.py
 # 2. Run the clustering/scoring example from the repository directory
 python runClustering.py --k 2
 
-# 3. Run focused tests
-python -m unittest -v test_clustering.py
 ```
 
 `runClustering.py` connects the existing spectral stages to these two tasks.
@@ -167,7 +165,8 @@ or run evaluation. Re-running the command replaces these two result files.
 
 ### Local verification
 
-The eight focused tests pass. On the default generated dataset (seed 42, 500
+Eight focused tests passed locally; test files are kept outside this repository.
+On the default generated dataset (seed 42, 500
 employees, 5,544 events), the example with `k=2` produced clusters of 45 and 455
 employees. The 45-person cluster ranked first and contained all six planted
 insiders. Treating that entire cluster as flagged gives precision 13.33% and
@@ -214,7 +213,7 @@ print(evaluate(yTrue, flagged, scores))
 print(precisionAtK(yTrue, scores, k=10))
 ```
 
-The compatibility test covers shuffled truth-file rows and all three evaluation
+Local compatibility testing covered shuffled truth-file rows and all three evaluation
 helpers. For `precisionAtK`, use `1 <= k <= n`; this existing helper does not
 validate that range. Since members of a cluster have identical scores, top-k
 results that cut through a tie depend on tie ordering. ROC-AUC also requires both
