@@ -5,12 +5,12 @@ import laplacian as lap
 import eigenvalueDecomposer as eig
 
 
-def UMatrix(eigenVectors, k):
-    U = eigenVectors[:, :k].copy()   
-    rowNormalization = np.linalg.norm(U, axis=1, keepdims=True) 
-
-    rowNormalization[rowNormalization == 0] = 1e-10
-
-    UNormalized = U / rowNormalization
-    return UNormalized
+def UMatrix(eigenVectors, k, skipFirst=True, normalize=False):
+    start = 1 if skipFirst else 0
+    U = eigenVectors[:, start:k].copy()
+    if normalize:
+        norms = np.linalg.norm(U, axis=1, keepdims=True)
+        norms[norms == 0] = 1e-10
+        U = U / norms
+    return U
 
