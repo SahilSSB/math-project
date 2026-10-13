@@ -1,11 +1,8 @@
-"""K-means on the row-normalized spectral embedding."""
-
 import numpy as np
 from sklearn.cluster import KMeans
 
 
 def clustering(U, k, randomState=42):
-    """Return one integer cluster label per row of U, in the same order."""
     U = np.asarray(U, dtype=float)
     if U.ndim != 2 or not U.size or not np.isfinite(U).all():
         raise ValueError("U must be a non-empty, finite 2D matrix.")

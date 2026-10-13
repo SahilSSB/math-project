@@ -1,18 +1,8 @@
-"""Explainable graph-only cluster scores; no ground-truth labels are read."""
-
 import numpy as np
 import pandas as pd
 
 
 def clusterScoring(adjacencyMatrix, clusterLabels):
-    """Return (ranked cluster table, scores aligned with the input nodes).
-
-    score = density * internalShare * frequencyFactor
-    frequencyFactor = mean internal edge weight / (that mean + global mean)
-    Internal weight counts each undirected edge once; internalShare uses
-    twice that weight divided by the sum of member degrees.
-    Scores are relative heuristics, not probabilities of insider activity.
-    """
     A = np.asarray(adjacencyMatrix, dtype=float)
     labels = np.asarray(clusterLabels)
     if A.ndim != 2 or A.shape[0] != A.shape[1] or not A.size:
